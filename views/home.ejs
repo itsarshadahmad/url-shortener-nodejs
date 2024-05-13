@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Url Shortener</title>
+        <%- include("./bootstrap") %>
+    </head>
+    <body>
+        <%- include("./navbar", {message: "Logout"}) %>
+
+        <div class="container">
+            <form
+                action="/add"
+                class="d-flex align-items-center mt-5"
+                method="post"
+            >
+                <input
+                    type="text"
+                    class="form-control mx-1"
+                    id="exampleInputEmail1"
+                    placeholder="Enter URL"
+                    name="url"
+                    aria-describedby="emailHelp"
+                />
+                <button type="submit" class="btn btn-primary mx-1">Add</button>
+            </form>
+
+            <h1 class="mt-5">Generated URLs</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">URL</th>
+                        <th scope="col">Short URL</th>
+                        <th scope="col">Clicks</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for( let i = 0; i < urls.length; i++ ) { %>
+                    <tr>
+                        <th scope="row"><%- (i+1) %></th>
+                        <td><%- urls[i].redirectUrl %></td>
+                        <td>
+                            <%- "http://localhost:3000/"+ urls[i].shortId %>
+                        </td>
+                        <td><%- urls[i].visitHistory.length %></td>
+                        <td>
+                            <form action=<%- "/delete/"+ urls[i].shortId %> method="post">
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
